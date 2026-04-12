@@ -53,25 +53,24 @@ Mata kuliah ini menggunakan pendekatan **Positivist** (fenomena TI bisa diukur o
 ## Template A.1 — Research Mindset Self-Assessment
 
 ```
-Nama Peneliti    : ____________________
-Tanggal          : ____________________
+Nama Peneliti    : Abbi Priyoguno
+Tanggal          : 13 April 2026
 
 1. Ketika membaca klaim "metode X 95% akurat":
-   - Pertanyaan pertama saya: ____________________
-   - Data yang dibutuhkan untuk verifikasi: ____________________
-
+   - Pertanyaan pertama saya:Apakah dataset yang digunakan seimbang (balanced) dan apakah 95% itu hasil dari lingkungan pengujian yang ideal atau realitas?
+   - Data yang dibutuhkan untuk verifikasi:Distribusi data pengujian, metrik Precision/Recall, dan detail mengenai baseline pembandingnya.
 2. Posisi paradigma:
-   - Pendekatan: [ ] Positivis  [ ] Interpretivis  [ ] Design Science  [ ] Mixed
-   - Alasan: ____________________
+   - Pendekatan: [ ] Positivis  [ ] Interpretivis  [x] Design Science  [ ] Mixed
+   - Alasan: Fokus utama saya adalah menciptakan solusi digital (artefak) untuk masalah operasional nyata, di mana efektivitas sistem diuji melalui implementasi teknis.
 
 3. Identifikasi distorsi:
-   - Asumsi tersembunyi: ____________________
-   - Sumber bias potensial: ____________________
-   - Langkah mitigasi: ____________________
+   - Asumsi tersembunyi:Pengguna selalu memasukkan data dengan format yang benar.
+   - Sumber bias potensial: Sampling bias (hanya menguji pada satu jenis perangkat high-end).
+   - Langkah mitigasi: Melakukan stress testing dengan berbagai skenario data ekstrem dan perangkat yang beragam.
 
 4. Komitmen etika:
-   - Data yang tidak akan dimanipulasi: ____________________
-   - Batasan yang diakui sejak awal: ____________________
+   - Data yang tidak akan dimanipulasi: Seluruh data mentah (raw data) hasil eksperimen, termasuk nilai fitness pada algoritma genetika yang tidak konvergen, log kegagalan sistem, serta data transaksi asli yang digunakan sebagai sampel pengujian tanpa mengubah angka untuk mempercantik hasil akurasi.
+   - Batasan yang diakui sejak awal:Penelitian ini hanya diuji pada lingkungan terbatas (misalnya: local server), dataset yang digunakan mungkin belum mencakup seluruh variasi produk di pasar luas, dan performa algoritma sangat bergantung pada spesifikasi perangkat keras yang digunakan saat pengujian.
 ```
 
 ---
@@ -86,18 +85,19 @@ Pilih satu paper riset di bidang TI yang mengklaim "metode X meningkatkan perfor
 
 | Tahap | Apa yang Dilakukan | Potensi Distorsi |
 |-------|-------------------|-----------------|
-| Reality → Data | *Contoh: Kumpulkan log server 30 hari* | *Contoh: Hanya ambil jam sibuk* |
-| Data → Processing | | |
-| Processing → Analysis | | |
-| Analysis → Inference | | |
-| Inference → Knowledge | | |
+| Reality → Data | Mengambil data transaksi dari 1 toko. | Sampling Bias: Data tidak mewakili perilaku konsumen di toko lain. |
+| Data → Processing |Membersihkan data transaksi yang kosong. |Data Cleaning Bias: Menghapus data unik yang mungkin merupakan pola penting. |
+| Processing → Analysis |Menjalankan GA dengan parameter statis. |Parameter Bias: Hasil hanya optimal pada rentang nilai tertentu saja.
+| Analysis → Inference |Menyimpulkan metode ini meningkatkan laba. |Causal Fallacy: Bisa saja laba naik karena faktor eksternal (hari raya), bukan algoritma. |
+| Inference → Knowledge |Publikasi klaim "Solusi Stok Terbaik". |Overgeneralization: Mengklaim berlaku untuk semua jenis bisnis ritel. |
 
-**Distorsi paling besar di tahap:** ________________________
-
+**Distorsi paling besar di tahap:** Analysis → Inference
 **Dua distorsi spesifik yang teridentifikasi:**
-1. ___________________________________________________
-2. ___________________________________________________
+1. Hardware-Dependent Performance Bias
+Pernyataan bahwa sistem sangat cepat tanpa mengakui bahwa pengujian dilakukan pada mesin dengan spesifikasi high-end. Hal ini menciptakan distorsi karena performa tersebut tidak akan tercapai pada perangkat rata-rata yang digunakan oleh target pengguna (misalnya, smartphone murah untuk Agri-POS).
 
+2. Cherry-picking Success Scenarios
+Hanya melaporkan hasil running algoritma genetika ketika ia berhasil menemukan nilai optimal (global optima) dalam iterasi cepat, dan mengabaikan atau menghapus data saat algoritma mengalami premature convergence atau stuck di nilai buruk.
 ---
 
 ## Latihan 2 — Analisis Kasus Etika
@@ -106,12 +106,12 @@ Skenario: Seorang peneliti menemukan bahwa jika 3 data point outlier dihapus, ha
 
 | Perspektif | Analisis |
 |------------|---------|
-| Kejujuran ilmiah | *Contoh: Laporkan kedua versi (dengan dan tanpa outlier)* |
-| Transparansi | |
-| Peer review | |
+| Kejujuran ilmiah | Menyembunyikan outlier demi signifikansi adalah bentuk pembohongan data (falsification). |
+| Transparansi |Peneliti harus menjelaskan kriteria pembuangan outlier secara eksplisit di bab metodologi. |
+| Peer review |Reviewer butuh data mentah untuk memastikan bahwa outlier tersebut memang error teknis, bukan variasi alami. |
 
 **Keputusan akhir dan justifikasi:**
-> ___________________________________________________
+> Melaporkan hasil dengan kedua kondisi (dengan dan tanpa outlier). Jika hasilnya berbeda jauh, peneliti harus mendiskusikan mengapa data tersebut dianggap outlier dan apa dampaknya bagi penerapan di dunia nyata.
 
 ---
 
@@ -121,12 +121,12 @@ Skenario: Seorang peneliti menemukan bahwa jika 3 data point outlier dihapus, ha
 
 | Kriteria | Positivis | Interpretivis | Design Science |
 |----------|-----------|---------------|----------------|
-| Kesesuaian dengan topik (1–5) | *Contoh: 4* | *Contoh: 2* | *Contoh: 5* |
-| Jenis data yang dikumpulkan | | | |
-| Limitasi paradigma | | | |
+| Kesesuaian dengan topik (1–5) | 4| 2 | 5 |
+| Jenis data yang dikumpulkan |Waktu penetrasi, jumlah celah. |Waktu penetrasi, jumlah celah. |Persepsi admin terhadap keamanan. |Keandalan skema enkripsi yang dibuat. |
+| Limitasi paradigma |Terlalu kaku pada angka. |Sangat subjektif. |Fokus pada alat, terkadang lupa teori dasar. |
 
-**Paradigma yang dipilih:** _____________________________
-**Alasan:** ____________________________________________
+**Paradigma yang dipilih:** Design Science
+**Alasan:** Riset ini bertujuan membangun mekanisme pertahanan database yang lebih baik melalui pengembangan artefak keamanan.
 
 ---
 
@@ -135,5 +135,5 @@ Skenario: Seorang peneliti menemukan bahwa jika 3 data point outlier dihapus, ha
 > Sebelum membaca materi ini, apakah pernah mempertanyakan klaim "95% akurat"? Setelah memahami rantai distorsi, pertanyaan apa yang sekarang akan diajukan saat membaca paper?
 
 **Jawaban:**
-> ___________________________________________________
+> Sebelum membaca ini, saya sering melihat angka persentase sebagai keberhasilan mutlak proyek coding. Sekarang, saya akan lebih skeptis dan menanyakan: "Seberapa representatif data yang digunakan?" serta "Apakah ada variabel pengganggu yang membuat angka itu terlihat bagus secara semu?"
 > ___________________________________________________
