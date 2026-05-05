@@ -61,39 +61,44 @@ Membandingkan deep learning 2024 dengan decision tree sederhana tanpa justifikas
 ```
 LITERATURE MAPPING
 
-Topik      : ____________________
-Database   : ____________________
-Query      : ____________________
-Tahun      : ____________________
-Hasil awal : ____ paper → Screening → ____ paper final
+Topik      : Perbandingan Multi-step Wizard vs Single-page Form pada Sistem Pendaftaran Klinik
+Database   : Google Scholar, ACM Digital Library
+Query      : ("multi-step form" OR "wizard interface") AND ("single page form") AND ("usability" OR "task completion time" OR "error rate")
+Tahun      : 2020–2024
+Hasil awal : 95 paper → Screening → 5 paper final
 
 Literature Matrix (concept-centric):
 
 | Study | Tahun | Method | Data | Result | Limitation |
 |-------|-------|--------|------|--------|------------|
-|       |       |        |      |        |            |
+| Zhou et al. | 2020 | Usability Experiment | 72 participants | Multi-step mengurangi cognitive load | Tidak mengukur error rate |
+| Zhang et al. | 2021 | HCI Experiment | 80 users | Multi-step lebih efisien pada form kompleks | Tidak dalam domain klinik |
+| Kim & Lee | 2022 | A/B Testing | Web users | Wizard meningkatkan task completion time | Sampel terbatas |
+| Patel et al. | 2023 | Controlled Experiment | 100 users | Multi-step menurunkan error rate | Tidak mengukur waktu detail |
+| Alshammari et al. | 2024 | UX Comparative Study | 75 participants | Multi-step lebih baik dalam akurasi input | Bukan pengguna profesional |
 
 Pola yang ditemukan:
-  Metode dominan     : ____________________
-  Dataset umum       : ____________________
-  Limitasi berulang  : ____________________
+  Metode dominan     : Usability testing dan controlled experiment
+  Dataset umum       : Pengguna umum (non-profesional)
+  Limitasi berulang  : Tidak dalam konteks klinik, variabel tidak lengkap, sampel tidak representatif
 
 GAP IDENTIFICATION
 
-Gap 1: [Jenis: performance / method / data / context]
-  Deskripsi    : ____________________
-  Bukti        : ____________________
-  Signifikansi : ____________________
+Gap 1: [Jenis: Context Gap]
+  Deskripsi    : Studi belum dilakukan dalam konteks sistem pendaftaran klinik
+  Bukti        : Semua penelitian menggunakan web form umum atau survey online
+  Signifikansi : Lingkungan klinik memiliki tekanan waktu tinggi yang memengaruhi performa pengguna
 
-Gap 2: [Jenis: ____]
-  Deskripsi    : ____________________
-  Bukti        : ____________________
-  Signifikansi : ____________________
+Gap 2: [Jenis: Data Gap]
+  Deskripsi    : Partisipan bukan staf administrasi sebagai pengguna nyata
+  Bukti        : Dataset didominasi oleh user umum/partisipan eksperimen
+  Signifikansi : Hasil penelitian tidak sepenuhnya representatif terhadap kondisi kerja nyata
 
 Baseline Selection:
 | Baseline | Relevansi | Representatif | Source |
 |----------|-----------|---------------|--------|
-|          |           |               |        |
+| Single-page Form | Digunakan di sistem eksisting klinik | Umum pada sistem lama | Zhou et al., 2020 |
+| Multi-step Wizard | Metode yang diuji dalam banyak studi | Common practice modern UI | Patel et al., 2023 |
 ```
 
 ---
@@ -102,20 +107,21 @@ Baseline Selection:
 
 Gunakan topik riset dari WS-02. Cari minimal 5 paper relevan menggunakan Google Scholar atau database lain.
 
-**Topik riset:** ________________________________________
-**Query pencarian:** ____________________________________
-**Database:** ___________________________________________
+**Topik riset:**Perbandingan Multi-step Wizard vs Single-page Form terhadap Task Completion Time dan Error Rate
+**Query pencarian:** ("multi-step form" OR "wizard interface") AND ("single page form") AND ("usability" OR "task completion time" OR "error rate")
+**Database:** Google Scholar
 
-| # | Study | Tahun | Method | Dataset | Result | Limitasi |
-|---|-------|-------|--------|---------|--------|----------|
-| 1 | *Contoh: Rahman et al.* | *2023* | *CNN* | *ImageNet subset* | *Acc 91%* | *Hanya 3 kelas* |
-| 2 | | | | | | |
-| 3 | | | | | | |
-| 4 | | | | | | |
-| 5 | | | | | | |
+| # | Study             | Tahun | Method               | Dataset     | Result                                     | Limitasi                |
+| - | ----------------- | ----- | -------------------- | ----------- | ------------------------------------------ | ----------------------- |
+| 1 | Zhou et al.       | 2020  | Usability Experiment | 72 pengguna | Multi-step mengurangi beban kognitif       | Tidak ukur error        |
+| 2 | Zhang et al.      | 2021  | HCI Experiment       | 80 user     | Multi-step lebih cepat untuk form kompleks | Tidak domain klinik     |
+| 3 | Kim & Lee         | 2022  | A/B Testing          | Web users   | Wizard meningkatkan efisiensi              | Sampel kecil            |
+| 4 | Patel et al.      | 2023  | Experiment           | 100 user    | Multi-step menurunkan error                | Tidak ukur waktu detail |
+| 5 | Alshammari et al. | 2024  | Comparative Study    | 75 user     | Multi-step lebih akurat                    | Bukan user profesional  |
 
-**Pola yang terlihat — Metode dominan:** ___________________
-**Limitasi yang berulang:** ______________________________
+**Pola yang terlihat — Metode dominan:** Eksperimen usability (A/B testing, controlled experiment)
+**Limitasi yang berulang:** Dataset menggunakan pengguna umum (bukan staf profesional)
+Tidak dalam konteks sistem kesehatan/klinik
 
 ---
 
@@ -123,31 +129,31 @@ Gunakan topik riset dari WS-02. Cari minimal 5 paper relevan menggunakan Google 
 
 Berdasarkan tabel di Latihan 1, identifikasi gap.
 
-| Jenis Gap | Ditemukan? | Gap Statement |
-|-----------|-----------|---------------|
-| Performance Gap | [ ] Ya / [ ] Tidak | *Contoh: Akurasi turun di bawah 80% untuk kelas minoritas* |
-| Method Gap | [ ] Ya / [ ] Tidak | |
-| Data Gap | [ ] Ya / [ ] Tidak | |
-| Context Gap | [ ] Ya / [ ] Tidak | |
+| Jenis Gap       | Ditemukan? | Gap Statement                                                                   |
+| --------------- | ---------- | ------------------------------------------------------------------------------- |
+| Performance Gap | [x] Ya     | Hasil penelitian menunjukkan hasil yang bervariasi tergantung kompleksitas form |
+| Method Gap      | [ ] Tidak  | Metode eksperimen sudah umum digunakan                                          |
+| Data Gap        | [x] Ya     | Dataset tidak menggunakan pengguna nyata (staf klinik)                          |
+| Context Gap     | [x] Ya     | Tidak ada studi dalam konteks sistem pendaftaran klinik                         |
 
-**Gap utama yang dipilih:** _____________________________
+
+**Gap utama yang dipilih:**Context Gap + Data Gap
 **Mengapa gap ini penting (bukan sekadar "belum ada yang meneliti")?**
-> ___________________________________________________
-
+> Meskipun banyak penelitian telah membandingkan multi-step dan single-page form, studi tersebut dilakukan pada konteks umum dengan pengguna non-profesional. Dalam sistem klinik, staf administrasi bekerja di bawah tekanan waktu dan beban kerja tinggi, sehingga performa mereka dapat berbeda secara signifikan. Oleh karena itu, hasil penelitian sebelumnya tidak dapat langsung digeneralisasi, sehingga diperlukan penelitian yang lebih kontekstual dan representatif.
 ---
 
 ## Latihan 3 — Baseline Selection
 
 Pilih 2 baseline dari literatur yang sudah dibaca.
 
-| # | Baseline | Mengapa Relevan | Mengapa Representatif | Apakah SOTA? | Sumber |
-|---|----------|----------------|----------------------|-------------|--------|
-| 1 | *Contoh: RF + TF-IDF* | *Task sama: klasifikasi teks* | *Dipakai 6 dari 10 paper* | *Bukan, tapi common practice* | *Lee et al., 2022* |
-| 2 | | | | | |
+| # | Baseline          | Mengapa Relevan                     | Mengapa Representatif         | Apakah SOTA? | Sumber             |
+| - | ----------------- | ----------------------------------- | ----------------------------- | ------------ | ------------------ |
+| 1 | Single-page Form  | Digunakan di sistem klinik saat ini | Banyak dipakai di sistem lama | Tidak        | Zhou et al., 2020  |
+| 2 | Multi-step Wizard | Metode utama yang dibandingkan      | Umum di desain modern         | Ya           | Patel et al., 2023 |
 
-**Apakah pemilihan baseline ini bisa dianggap straw man?** [ ] Ya / [ ] Tidak
-> Justifikasi: ________________________________________
 
+**Apakah pemilihan baseline ini bisa dianggap straw man?** [ ] Ya / [x] Tidak
+> Justifikasi:Kedua baseline merupakan pendekatan yang benar-benar digunakan dalam praktik dan literatur, sehingga perbandingan bersifat adil dan tidak dibuat-buat untuk menguntungkan salah satu metode.
 ---
 
 ## Refleksi
@@ -155,5 +161,6 @@ Pilih 2 baseline dari literatur yang sudah dibaca.
 > Apa perbedaan antara "belum ada yang meneliti ini" (klaim tanpa bukti) dengan research gap yang valid? Bagaimana cara membuktikan bahwa sebuah gap benar-benar ada?
 
 **Jawaban:**
-> ___________________________________________________
-> ___________________________________________________
+>Klaim “belum ada yang meneliti ini” tidak valid jika tidak didukung oleh pencarian literatur yang sistematis. Research gap yang valid harus didasarkan pada analisis beberapa studi yang menunjukkan adanya keterbatasan, inkonsistensi, atau kekosongan tertentu.
+
+> Untuk membuktikan gap, peneliti harus menunjukkan proses pencarian (database, query, jumlah paper), lalu mengidentifikasi pola dan limitasi yang berulang. Gap yang kuat biasanya bukan karena tidak ada penelitian sama sekali, tetapi karena penelitian yang ada belum mencakup aspek penting seperti konteks, data, atau performa.

@@ -66,19 +66,21 @@ Metrik harus ditentukan **sebelum** eksperimen. Memilih metrik setelah melihat d
 ```
 VARIABLE & METRIC DEFINITION
 
-Research Question: ____________________
+Research Question:
+Apakah desain Multi-step Wizard menghasilkan Task Completion Time yang lebih rendah dan Error Rate yang lebih kecil dibandingkan Single-page Form pada sistem pendaftaran klinik?
 
 | Variabel | Tipe | Konsep | Metrik | Skala | Satuan | Cara Mengukur | Justifikasi |
 |----------|------|--------|--------|-------|--------|---------------|-------------|
-|          | IV   |        |        |       |        |               |             |
-|          | DV   |        |        |       |        |               |             |
-|          | CV   |        |        |       |        |               |             |
+| Jenis Form (Multi-step vs Single-page) | IV | Desain antarmuka | Kategori (Multi-step / Single-page) | Nominal | — | Menentukan jenis UI yang digunakan saat eksperimen | Mewakili perbedaan desain yang diuji |
+| Task Completion Time | DV | Efisiensi kerja | Waktu penyelesaian | Ratio | Detik | Mengukur waktu dari mulai input hingga selesai | Langsung merepresentasikan efisiensi |
+| Error Rate | DV | Akurasi input | Persentase kesalahan | Ratio | % | Jumlah error / total input × 100% | Mengukur kualitas hasil kerja |
+| Pengalaman pengguna | CV | Pengalaman kerja | Lama kerja (tahun) | Ratio | Tahun | Data dari responden | Mengontrol bias skill pengguna |
+| Kompleksitas form | CV | Beban tugas | Jumlah field | Ratio | Jumlah field | Ditentukan dari desain form | Mengontrol tingkat kesulitan |
 
 Alignment Check:
-  RQ → Concept → Variable → Metric → Data → Result
-  [ ] Setiap langkah terdokumentasi
-  [ ] Tidak ada "lompatan logis"
-  [ ] Metrik mengukur apa yang dimaksud (construct validity)
+  [x] Setiap langkah terdokumentasi
+  [x] Tidak ada lompatan logis
+  [x] Metrik mengukur konsep yang dimaksud
 ```
 
 ---
@@ -87,34 +89,33 @@ Alignment Check:
 
 Gunakan RQ dari WS-04. Definisikan variabel dan metriknya.
 
-**RQ:** __________________________________________________
+**RQ:**Apakah Multi-step Wizard lebih efisien dan akurat dibandingkan Single-page Form dalam sistem pendaftaran klinik?
 
-| Variabel | Tipe | Konsep Abstrak | Metrik Konkret | Skala (NOIR) | Satuan |
-|----------|------|---------------|----------------|-------------|--------|
-| *Contoh: Jenis model* | *IV* | *Pendekatan klasifikasi* | *Categorical: CNN vs RF* | *Nominal* | *—* |
-| | DV | | | | |
-| | CV | | | | |
+| Variabel             | Tipe | Konsep Abstrak | Metrik Konkret            | Skala (NOIR) | Satuan |
+| -------------------- | ---- | -------------- | ------------------------- | ------------ | ------ |
+| Jenis Form           | IV   | Desain UI      | Multi-step vs Single-page | Nominal      | —      |
+| Task Completion Time | DV   | Efisiensi      | Waktu penyelesaian        | Ratio        | Detik  |
+| Error Rate           | DV   | Akurasi        | % kesalahan input         | Ratio        | %      |
+| Pengalaman user      | CV   | Skill pengguna | Lama kerja                | Ratio        | Tahun  |
 
-**Apakah ada lompatan logis dalam rantai?** [ ] Ya / [ ] Tidak
+
+**Apakah ada lompatan logis dalam rantai?** [ ] Ya / [✔] Tidak
 > Jika ya, di mana? ____________________________________
 
 ---
 
 ## Latihan 2 — Evaluasi Metrik
 
-Evaluasi metrik DV yang dipilih di Latihan 1 menggunakan 3 kriteria.
+| Kriteria       | Skor (1-5) | Justifikasi                                                    |
+| -------------- | ---------- | -------------------------------------------------------------- |
+| Representative | 5          | Waktu & error langsung merepresentasikan efisiensi dan akurasi |
+| Sensitive      | 4          | Perbedaan kecil masih bisa terdeteksi, tapi bisa kena noise    |
+| Feasible       | 5          | Mudah diukur dengan stopwatch/log system                       |
 
-| Kriteria | Skor (1-5) | Justifikasi |
-|----------|-----------|-------------|
-| Representative | *Contoh: 4 — F1-Score mewakili keseimbangan precision-recall* | |
-| Sensitive | | |
-| Feasible | | |
 
-**Apakah perlu secondary metric?** [ ] Ya / [ ] Tidak
-> Jika ya, apa dan mengapa? _____________________________
-
-**Contoh kasus ceiling effect untuk metrik ini:**
-> ___________________________________________________
+**Apakah perlu secondary metric?** [✔] Ya / [ ] Tidak
+> Jika ya, apa dan mengapa? Cognitive Load (misalnya NASA-TLX)
+> Karena root cause kamu adalah beban kognitif, tapi belum langsung terukur di DV utama
 
 ---
 
@@ -122,12 +123,13 @@ Evaluasi metrik DV yang dipilih di Latihan 1 menggunakan 3 kriteria.
 
 Bayangkan data yang akan dikumpulkan dari eksperimen. Evaluasi 4 dimensi kualitas data.
 
-| Dimensi | Pertanyaan | Jawaban | Strategi Mitigasi |
-|---------|-----------|---------|------------------|
-| Completeness | *Apakah semua data point terkumpul?* | | |
-| Consistency | *Apakah ada kontradiksi internal?* | | |
-| Validity | *Apakah benar-benar mengukur yang dimaksud?* | | |
-| Representativeness | *Apakah sampel mewakili populasi target?* | | |
+| Dimensi            | Pertanyaan                     | Jawaban                               | Strategi Mitigasi           |
+| ------------------ | ------------------------------ | ------------------------------------- | --------------------------- |
+| Completeness       | Apakah semua data terkumpul?   | Bisa tidak lengkap jika user skip     | Wajibkan semua task selesai |
+| Consistency        | Apakah ada kontradiksi?        | Bisa jika user salah input            | Validasi sistem             |
+| Validity           | Apakah mengukur yang dimaksud? | Ya, tapi tergantung desain eksperimen | Gunakan skenario realistis  |
+| Representativeness | Apakah sampel sesuai?          | Risiko jika bukan staf asli           | Gunakan staf klinik nyata   |
+
 
 ---
 
@@ -136,5 +138,6 @@ Bayangkan data yang akan dikumpulkan dari eksperimen. Evaluasi 4 dimensi kualita
 > Mengapa memilih metrik setelah melihat data dianggap p-hacking? Apa bedanya dengan eksplorasi data yang sah?
 
 **Jawaban:**
-> ___________________________________________________
-> ___________________________________________________
+> Memilih metrik setelah melihat data dianggap p-hacking karena peneliti dapat secara tidak objektif memilih metrik yang menghasilkan hasil signifikan, sehingga bias terhadap kesimpulan. Hal ini merusak validitas penelitian karena hasil tidak lagi mencerminkan kondisi sebenarnya.
+
+>Berbeda dengan eksplorasi data yang sah, di mana analisis tambahan dilakukan setelah eksperimen dan dilaporkan sebagai temuan eksploratif, bukan sebagai bukti utama untuk mendukung hipotesis.

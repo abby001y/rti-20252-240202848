@@ -67,25 +67,28 @@ Jika variabel tidak bisa di-map ke komponen apapun → arsitektur perlu didesain
 ```
 SYSTEM-EXPERIMENT MAPPING
 
-Research Question: ____________________
+Research Question:
+Apakah desain Multi-step Wizard menghasilkan Task Completion Time yang lebih rendah dan Error Rate yang lebih kecil dibandingkan Single-page Form pada sistem pendaftaran klinik?
 
 Variable → Component Mapping:
 | Variabel | Tipe | Komponen Sistem | Cara Manipulasi/Pengukuran |
 |----------|------|-----------------|---------------------------|
-|          | IV   |                 |                           |
-|          | DV   |                 |                           |
-|          | CV   |                 |                           |
+| Jenis Form (Multi-step vs Single-page) | IV | Modul UI Form (2 versi: wizard & single-page) | Toggle melalui config (mode = wizard / single) |
+| Task Completion Time | DV | Timer / Logger System | Hitung waktu dari start input hingga submit |
+| Error Rate | DV | Validation & Error Logger | Hitung jumlah kesalahan input / total field |
+| Pengalaman user | CV | Data responden | Dikontrol dengan memilih staf dengan level pengalaman serupa |
+| Kompleksitas form | CV | Struktur form (jumlah field) | Dikunci (jumlah field sama di kedua desain) |
 
 4 Prinsip Desain:
-  [ ] Traceability — Setiap komponen bisa ditelusuri ke variabel
-  [ ] Variable Isolation — IV bisa diubah tanpa mengubah CV
-  [ ] Measurement Integration — Pengukuran DV built-in
-  [ ] Reproducibility — Setup bisa direkonstruksi
+  [x] Traceability — Setiap komponen langsung terkait variabel
+  [x] Variable Isolation — Hanya UI yang berubah, variabel lain tetap
+  [x] Measurement Integration — Logger otomatis mencatat waktu & error
+  [x] Reproducibility — Bisa diulang dengan config yang sama
 
 Experimental Setup:
-  Input data     : ____________________
-  Parameter      : ____________________
-  Output format  : ____________________
+  Input data     : Data dummy pasien (KTP, asuransi, poli)
+  Parameter      : mode form (wizard/single), jumlah field tetap
+  Output format  : CSV (user_id, waktu, jumlah error)
 ```
 
 ---
@@ -94,15 +97,17 @@ Experimental Setup:
 
 Gunakan RQ dan variabel dari WS-05. Petakan ke komponen sistem.
 
-**RQ:** __________________________________________________
+**RQ:** Apakah Multi-step Wizard lebih efisien dan akurat dibandingkan Single-page Form?
 
-| Variabel | Tipe | Komponen Sistem | Cara Manipulasi / Pengukuran |
-|----------|------|-----------------|---------------------------|
-| *Contoh: Jenis model* | *IV* | *Modul classifier (swap RF ↔ CNN)* | *Ganti config `model_type`* |
-| | DV | | |
-| | CV | | |
+| Variabel             | Tipe | Komponen Sistem   | Cara Manipulasi / Pengukuran       |
+| -------------------- | ---- | ----------------- | ---------------------------------- |
+| Jenis Form           | IV   | UI Form Module    | Ganti mode (wizard vs single-page) |
+| Task Completion Time | DV   | Timer System      | Auto capture waktu                 |
+| Error Rate           | DV   | Validation Logger | Hitung error input                 |
+| Pengalaman user      | CV   | User selection    | Dikontrol saat rekrut partisipan   |
 
-**Apakah semua variabel bisa di-map?** [ ] Ya / [ ] Tidak
+
+**Apakah semua variabel bisa di-map?** [✔] Ya / [ ] Tidak
 > Jika tidak, komponen apa yang perlu ditambahkan? _________
 
 ---
@@ -111,34 +116,32 @@ Gunakan RQ dan variabel dari WS-05. Petakan ke komponen sistem.
 
 Evaluasi desain sistem terhadap 4 prinsip.
 
-| Prinsip | Status | Bukti / Penjelasan |
-|---------|--------|-------------------|
-| Traceability | *Contoh: ✅ — setiap modul punya label variabel* | |
-| Modularity | | |
-| Controllability | | |
-| Measurability | | |
+| Prinsip         | Status | Bukti / Penjelasan                     |
+| --------------- | ------ | -------------------------------------- |
+| Traceability    | ✅      | Setiap komponen jelas terkait variabel |
+| Modularity      | ✅      | UI dipisah jadi 2 modul                |
+| Controllability | ⚠️     | Perlu config file (jangan hardcoded)   |
+| Measurability   | ✅      | Logger otomatis mencatat data          |
 
-**Prinsip mana yang paling sulit dipenuhi?** _______________
+
+**Prinsip mana yang paling sulit dipenuhi?** Controllability
 **Strategi untuk mengatasinya:**
-> ___________________________________________________
-
+> Gunakan config file (JSON/YAML) untuk menentukan mode form, bukan ubah code manual
 ---
 
 ## Latihan 3 — Ablation Study Planning
 
 Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
+| Kondisi | Komponen A (UI Type) | Komponen B (Validation) | Komponen C (Step Navigation) | Hasil yang Diharapkan |
+| ------- | -------------------- | ----------------------- | ---------------------------- | --------------------- |
+| Full    | ✅ Multi-step         | ✅ Validasi aktif        | ✅ Step navigation            | Performa optimal      |
+| – A     | ❌ Single-page        | ✅                       | ✅                            | Waktu ↑, error ↑      |
+| – B     | ✅                    | ❌ tanpa validasi        | ✅                            | Error ↑ signifikan    |
+| – C     | ✅                    | ✅                       | ❌ (tanpa step)               | Cognitive load ↑      |
 
-| Kondisi | Komponen A | Komponen B | Komponen C | Hasil yang Diharapkan |
-|---------|-----------|-----------|-----------|----------------------|
-| Full | *Contoh: ✅ CNN* | *Contoh: ✅ Temporal features* | *Contoh: ✅ Z-score norm* | *Baseline penuh* |
-| – A | ❌ (ganti RF) | ✅ | ✅ | |
-| – B | ✅ | ❌ (tanpa temporal) | ✅ | |
-| – C | ✅ | ✅ | ❌ (tanpa normalisasi) | |
-
-**Komponen mana yang diprediksi paling berkontribusi?** _____
+**Komponen mana yang diprediksi paling berkontribusi?** Step Navigation (Multi-step structure)
 **Mengapa?**
-> ___________________________________________________
-
+> Karena langsung memengaruhi pembagian beban kognitif pengguna, yang merupakan akar masalah dari penelitian ini
 ---
 
 ## Refleksi
@@ -146,5 +149,5 @@ Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
 > Apa risiko jika sistem dibangun seperti produk (monolitik, fitur lengkap) lalu baru dilakukan eksperimen? Mengapa arsitektur modular penting untuk riset?
 
 **Jawaban:**
-> ___________________________________________________
-> ___________________________________________________
+> Jika sistem dibangun seperti produk (monolitik dan penuh fitur), maka sulit untuk mengisolasi variabel yang ingin diuji. Perubahan kecil dapat memengaruhi banyak komponen sekaligus, sehingga hasil eksperimen menjadi tidak valid.
+> Arsitektur modular penting karena memungkinkan peneliti mengontrol dan memanipulasi satu variabel secara terpisah tanpa memengaruhi komponen lain. Hal ini memastikan bahwa perubahan hasil benar-benar disebabkan oleh variabel yang diuji, bukan faktor lain.
