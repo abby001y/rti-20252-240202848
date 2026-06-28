@@ -65,44 +65,46 @@ Keduanya **saling melengkapi**:
 ```
 RESULT PRESENTATION PLAN
 
-Research Question : ____________________
-Metrik Utama      : ____________________
+Research Question : Apakah struktur Multi-step Wizard dapat secara signifikan mengurangi 
+                    waktu pengisian dan tingkat kesalahan input pendaftaran klinik dibandingkan Single-page Form?
+Metrik Utama      : Task Completion Time (Detik) & Error Rate (%)
 
 Tabel Hasil:
-| Skenario | Metrik 1 (mean ± std) | Metrik 2 (mean ± std) | n |
-|----------|----------------------|----------------------|---|
-|          |                      |                      |   |
+| Skenario | Task Completion Time (detik) | Error Rate (%) | n |
+|----------|-----------------------------|----------------|---|
+| Multi-step Wizard | 218.10 ± 10.32    | 1.15 ± 0.42    | 3 |
+| Single-page Form  | 348.75 ± 8.84     | 5.20 ± 1.12    | 3 |
 
 Visualisasi yang Direncanakan:
 | # | Jenis Grafik | Pesan Utama | Metrik |
 |---|-------------|-------------|--------|
-| 1 |             |             |        |
-| 2 |             |             |        |
+| 1 | Bar Chart + Error Bar | Memperlihatkan penurunan durasi input yang signifikan pada Wizard | Task Completion Time |
+| 2 | Box Plot | Menunjukkan sebaran konsistensi/stabilitas error rate pengguna | Error Rate |
 
 Bias Check:
-  [ ] Y-axis mulai dari 0 (atau dijustifikasi)
-  [ ] Error bar/CI ditampilkan
-  [ ] Semua data disertakan (tidak cherry-picked)
-  [ ] Tidak menggunakan 3D tanpa alasan
+  [x] Y-axis mulai dari 0 (atau dijustifikasi)
+  [x] Error bar/CI ditampilkan (menggunakan standar deviasi hasil run)
+  [x] Semua data disertakan (tidak cherry-picked, menyertakan data run ekstrim)
+  [x] Tidak menggunakan 3D tanpa alasan
 ```
 
 ---
 
 ## Latihan 1 — Tabel Hasil
 
-Buat tabel hasil eksperimen Anda (boleh dengan data simulasi jika belum punya data riil).
+BCatatan: Nilai di bawah ini merupakan ringkasan deskriptif (Mean ± Std) setelah dilakukan perbaikan pengumpulan data penuh (n=3 per skenario) di WS-11
 
 | Skenario | Metrik 1 (mean ± std) | Metrik 2 (mean ± std) | n |
 |----------|----------------------|----------------------|---|
-| *Contoh: BERT-base* | *88.4 ± 1.2%* | *45.2 ± 3.1 min* | *10* |
-| | | | |
+|Multi-step Wizard |218.10 ± 10.32|1.15 ± 0.42 |3|
+|Single-page Form |348.75 ± 8.84 |5.20 ± 1.12 |3 |
 | | | | |
 
 **Checklist tabel:**
-- [ ] Self-contained (judul jelas, satuan ada, N tercantum)
-- [ ] Mean ± std (bukan single number)
-- [ ] Diurutkan berdasarkan metrik utama
-- [ ] Format konsisten di semua baris
+- [x] Self-contained (judul jelas, satuan ada, N tercantum)
+- [x] Mean ± std (bukan single number)
+- [x] Diurutkan berdasarkan metrik utama
+- [x] Format konsisten di semua baris
 
 ---
 
@@ -112,8 +114,8 @@ Rencanakan 2-3 grafik untuk menyajikan data dari Latihan 1. Setiap grafik = satu
 
 | # | Jenis Grafik | Pesan | Data yang Digunakan |
 |---|-------------|-------|---------------------|
-| 1 | *Contoh: Bar chart + error bar* | *Perbandingan accuracy antar 3 model* | *Mean accuracy ± std* |
-| 2 | *Box plot* | *Distribusi F1 per model* | *Semua run F1* |
+| 1 | Bar chart + error bar | Perbandingan rata-rata kecepatan penyelesaian pendaftaran pasien antara kedua jenis antarmuka. | Mean Task Completion Time ± std |
+| 2 | Box plot | Mengilustrasikan rentang sebaran serta konsistensi error rate (kesalahan input) staf admin klinik. | Seluruh individu run log data (Error Rate %) |
 | 3 | *Scatter plot* | *Trade-off accuracy vs training time* | *Mean accuracy vs mean time* |
 
 ---
@@ -126,14 +128,14 @@ Evaluasi visualisasi berikut untuk bias (skenario dari contoh):
 
 | Pertanyaan | Jawaban |
 |-----------|---------|
-| Apakah Y-axis menyesatkan? | *Contoh: Ya — A terlihat 2× B padahal beda 0.4%* |
-| Apakah error bar ditampilkan? | |
-| Apakah semua kondisi ditampilkan? | |
-| Apa solusinya? | |
+| Apakah Y-axis menyesatkan? | Ya — Memulai sumbu Y dari 90% secara artifisial memperbesar perbedaan kecil (0.4%), membuat Metode A terlihat bekerja 2 kali lipat lebih baik daripada B. |
+| Apakah error bar ditampilkan? |Tidak ditampilkan, yang menyembunyikan fakta jika variabilitas kedua kelompok bisa jadi tumpang tindih. |
+| Apakah semua kondisi ditampilkan? |Ditampilkan, namun skalanya mengalami distorsi visual. |
+| Apa solusinya? |Kembalikan pangkal sumbu Y dimulai dari angka 0% agar perbedaan visual yang ditampilkan bersifat proporsional terhadap kenyataan data riilnya. |
 
 **Evaluasi grafik Anda sendiri dari Latihan 2:**
-- [ ] Semua bias check lulus
-- [ ] Ada yang perlu diperbaiki: ____
+- [x] Semua bias check lulus
+- [x] Ada yang perlu diperbaiki: Memastikan batas atas sumbu Y pada grafik Error Rate dikunci hingga angka 100% (bukan terpotong otomatis di angka 10%), agar audiens mendapatkan visualisasi yang jujur mengenai proporsi kesalahan input terhadap total kapasitas field instrumen.
 
 ---
 
@@ -141,5 +143,6 @@ Evaluasi visualisasi berikut untuk bias (skenario dari contoh):
 
 > Mengapa tabel dan grafik keduanya diperlukan — tidak cukup salah satu saja? Pernahkah Anda membuat grafik yang (tanpa sengaja) menyesatkan?
 
-> ___________________________________________________
-> ___________________________________________________
+>Keduanya mutlak diperlukan karena melayani fungsi kognitif yang berbeda dalam penulisan ilmiah. Tabel menyediakan presisi data mentah tingkat tinggi yang siap diuji ulang (reproducible), sementara grafik mentransformasikan kumpulan angka tersebut menjadi representasi bentuk geometris yang memudahkan otak pembaca menangkap pola tren, anomali, atau perbedaan ekstrem secara instan.
+
+> Saya menyadari pernah membuat grafik yang kurang sengaja menyesatkan sewaktu praktikum jaringan Cisco Packet Tracer dahulu; saya membiarkan software spreadsheet memotong sumbu Y (auto-scale) secara otomatis demi memperlihatkan perbedaan throughput data, tanpa menyadari hal itu mendistorsi persepsi perbedaan asli di lapangan. Melalui modul WS-12 ini, saya berkomitmen untuk selalu menerapkan visualisasi yang jujur, dimulai dari penarikan sumbu Y dari angka 0 dan menyematkan error bar.
